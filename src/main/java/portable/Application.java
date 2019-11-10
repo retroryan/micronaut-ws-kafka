@@ -3,17 +3,14 @@ package portable;
 import io.micronaut.context.event.ApplicationEventListener;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
-import io.micronaut.http.client.annotation.Client;
 import io.micronaut.runtime.Micronaut;
 import io.micronaut.runtime.event.annotation.EventListener;
 import io.micronaut.runtime.server.event.ServerStartupEvent;
-import io.micronaut.websocket.RxWebSocketClient;
-import io.reactivex.Flowable;
-import io.reactivex.functions.Consumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
+import java.util.UUID;
 
 
 @Controller()
@@ -28,8 +25,7 @@ public class Application implements ApplicationEventListener<ServerStartupEvent>
     }
 
     @Inject
-    @Client("${portable.ws_server_url}")
-    private RxWebSocketClient webSocketClient;
+    private WsServer wsServer;
 
 
     public static void main(String[] args) {
@@ -48,13 +44,10 @@ public class Application implements ApplicationEventListener<ServerStartupEvent>
 
     @EventListener
     public void onStartup(ServerStartupEvent event) {
-        LOG.info("Connecting to ws client = " + wsClientConfig);
+        LOG.info("Connecting with ws client config = " + wsClientConfig);
         LOG.info("bootstrap servers = " + wsClientConfig.getBootstrap_servers());
         LOG.info("topics = " + wsClientConfig.getTopic());
 
-        Flowable<WeatherWSClient> connect = webSocketClient.connect(WeatherWSClient.class, wsClientConfig.getWs_server_url_full());
-
-        connect.blockingForEach(weatherWSClient -> LOG.info("Connected to weatherWSClient => " + weatherWSClient.getSession().getId()));
     }
 }
 
