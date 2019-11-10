@@ -41,12 +41,8 @@ public class Application implements ApplicationEventListener<ServerStartupEvent>
 
     @EventListener
     public void onStartup(ServerStartupEvent event) {
-        // The connection excpets the URL to be in the form of:
-        // ws://bikeweather-to-ws.default.35.224.5.101.nip.io/ws
-        String ws_server_url_full = "ws://" + wsClientConfig.getWs_server_url() + "/ws";
-
-        LOG.info("Connecting to ws client = " + ws_server_url_full);
-        Flowable<WeatherWSClient> connect = webSocketClient.connect(WeatherWSClient.class, ws_server_url_full);
+        LOG.info("Connecting to ws client = " + wsClientConfig.getWs_server_url());
+        Flowable<WeatherWSClient> connect = webSocketClient.connect(WeatherWSClient.class, wsClientConfig.getWs_server_url());
         connect.blockingForEach(weatherWSClient -> LOG.info("Connected to weatherWSClient => " + weatherWSClient.getSession().getId()));
     }
 }
