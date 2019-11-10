@@ -19,7 +19,6 @@ public class WeatherWSClient implements AutoCloseable {
     private WebSocketSession session;
     private HttpRequest request;
 
-
     @Inject
     KafkaProducerClient kafkaProducerClient;
 

@@ -6,7 +6,6 @@ import io.micronaut.context.annotation.ConfigurationProperties;
 public class WsClientConfig {
 
     private String ws_server_url_full;
-    private String topic;
 
     public String getWs_server_url_full() {
         return ws_server_url_full;
@@ -16,11 +15,4 @@ public class WsClientConfig {
         this.ws_server_url_full = ws_server_url_full;
     }
 
-    public String getTopic() {
-        return topic;
-    }
-
-    public void setTopic(String topic) {
-        this.topic = topic;
-    }
 }

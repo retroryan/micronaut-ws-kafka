@@ -9,6 +9,7 @@ import io.micronaut.runtime.event.annotation.EventListener;
 import io.micronaut.runtime.server.event.ServerStartupEvent;
 import io.micronaut.websocket.RxWebSocketClient;
 import io.reactivex.Flowable;
+import io.reactivex.functions.Consumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,12 +35,6 @@ public class Application implements ApplicationEventListener<ServerStartupEvent>
     public static void main(String[] args) {
         Micronaut.run(Application.class);
     }
-
-    @Get()
-    public String index() {
-        return "hello, world";
-    }
-
     @Override
     public void onApplicationEvent(ServerStartupEvent event) {
 
@@ -48,10 +43,7 @@ public class Application implements ApplicationEventListener<ServerStartupEvent>
     @EventListener
     public void onStartup(ServerStartupEvent event) {
         LOG.info("Connecting to ws client = " + wsClientConfig);
-        LOG.info("topics = " + wsClientConfig.getTopic());
-
         Flowable<WeatherWSClient> connect = webSocketClient.connect(WeatherWSClient.class, wsClientConfig.getWs_server_url_full());
-
         connect.blockingForEach(weatherWSClient -> LOG.info("Connected to weatherWSClient => " + weatherWSClient.getSession().getId()));
     }
 }
