@@ -2,14 +2,12 @@ package portable;
 
 import io.micronaut.context.event.ApplicationEventListener;
 import io.micronaut.http.annotation.Controller;
-import io.micronaut.http.annotation.Get;
 import io.micronaut.http.client.annotation.Client;
 import io.micronaut.runtime.Micronaut;
 import io.micronaut.runtime.event.annotation.EventListener;
 import io.micronaut.runtime.server.event.ServerStartupEvent;
 import io.micronaut.websocket.RxWebSocketClient;
 import io.reactivex.Flowable;
-import io.reactivex.functions.Consumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,6 +33,7 @@ public class Application implements ApplicationEventListener<ServerStartupEvent>
     public static void main(String[] args) {
         Micronaut.run(Application.class);
     }
+
     @Override
     public void onApplicationEvent(ServerStartupEvent event) {
 
